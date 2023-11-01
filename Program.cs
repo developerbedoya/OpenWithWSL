@@ -79,13 +79,14 @@ class Program
         
         filePath = filePath.Substring(0, 1).ToLower() + filePath.Substring(1);
         string linuxFilePath = "/mnt/" + filePath.Replace(":", "").Replace("\\", "/");
-        string wslCommand = $"wsl xdg-open \"{linuxFilePath}\"";
+        string wslCommand = $"xdg-open \"{linuxFilePath}\"";
         
         var process = new Process
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = "cmd.exe",
+                FileName = "wsl.exe",
+                Arguments = wslCommand,
                 RedirectStandardInput = true,
                 UseShellExecute = false,
                 CreateNoWindow = true,
@@ -94,12 +95,6 @@ class Program
         };
 
         process.Start();
-
-        // Send the WSL command to the CMD process.
-        process.StandardInput.WriteLine(wslCommand);
-        
-        // Close the CMD process.
-        process.Close();
     }
     
     static void Usage()
